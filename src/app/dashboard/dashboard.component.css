@@ -1,0 +1,91 @@
+body {
+    background-color: #f7f9fc;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    
+}
+
+.main-container {
+    background-color: #eef1f7;
+    padding: 20px;
+    min-height: 100vh;
+    margin-right: 5px; /* Adds space on the right */
+    margin-left: 100px;
+    padding-top: 80px;
+    padding-left: 150px;
+    
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h5 {
+    color: #6c757d;
+    font-weight: bold;
+}
+
+.stat-card h3 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.status-dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-dot.active {
+    background-color: #b2d4cf; /* Pastel green */
+}
+
+.status-dot.inactive {
+    background-color: #f5c6cb; /* Pastel pink */
+}
+
+.feeds-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.feeds-section li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.chart-container {
+    height: 300px;
+    width: 100%;
+}
+
+.bg-pastel-green {
+    background-color: #b2d4cf;
+    color: #ffffff;
+}
+
+.bg-pastel-blue {
+    background-color: #c7b3e5;
+    color: #ffffff;
+}
+
+.bg-pastel-orange {
+    background-color: #f9c891;
+    color: #ffffff;
+}
+
+.bg-pastel-yellow {
+    background-color: #f5c6cb;
+    color: #ffffff;
+}
+
+

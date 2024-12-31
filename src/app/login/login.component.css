@@ -1,0 +1,195 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f9ff;
+  }
+
+  .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Makes the image cover the container */
+    z-index: 1; /* Push the image to the background */
+    opacity: 1; /* Optional: Add transparency for better card visibility */
+}
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+  }
+  
+  .login-card {
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    min-height: 400px; 
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+  
+  .login-left {
+    flex: 1.5;
+    background: #fafbfd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-left img {
+    max-width: 110%; 
+    height: auto; /* Maintain aspect ratio */
+    margin-top: 20px; /* Adjust margin if needed to balance layout */
+    transform: scale(1); /* Optional: Scale up the image for extra size */
+}
+
+  
+  .login-right {
+    flex: 1.2;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  p {
+    color: rgba(90, 200, 250, 1);
+  }
+  
+  .social-login {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  
+  .btn-google,
+  .btn-facebook {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+ 
+  
+  form {
+    width: 100%;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(90, 200, 250, 1);
+    border-radius: 20px;
+    font-size: 14px;
+  }
+  
+  input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
+  }
+
+  a{
+    color: #4b4f53;
+  }
+
+  a:hover {
+    color: rgba(90, 200, 250, 1);
+}
+  
+  .btn-login {
+    width: 100%;
+    background-color: rgba(90, 200, 250, 1);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 30px;
+  }
+  
+  .btn-login:hover {
+    background-color: #0056b3;
+  }
+
+  .is-invalid {
+    border-color: rgb(224, 130, 87)
+    ;
+  }
+  
+  .error-message {
+    color: rgb(224, 130, 87)
+    ;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+  }
+
+  p.sign-in {
+    font-size: 22px; /* Increase font size for bigger text */
+    color: #4b4f53; /* Blue color */
+    text-align: center; /* Center the text horizontally */
+    position: relative; /* Needed for positioning the pseudo-elements */
+    display: inline-block; /* Make it an inline-block element */
+    width: 100%; /* Make the element take up the full width of the parent */
+    margin-bottom: 10%;
+}
+
+p.sign-in::before,
+p.sign-in::after {
+    content: ''; /* Create an empty element for the lines */
+    position: absolute; /* Position them relative to the text */
+    top: 50%; /* Align vertically in the middle */
+    width: 40%; /* Control the length of the lines */
+    border-bottom: 1px solid #b2b4b6; /* Line style */
+}
+
+p.sign-in::before {
+    left: 0; /* Position the left line on the left side */
+}
+
+p.sign-in::after {
+    right: 0; /* Position the right line on the right side */
+}
+

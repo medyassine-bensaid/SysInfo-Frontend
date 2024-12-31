@@ -1,0 +1,48 @@
+/* Navbar Styling */
+.navbar {
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: calc(100% - 250px); /* Adjust for sidebar width */
+    left: 253px; /* Space reserved for the sidebar */
+    z-index: 1000;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+  }
+  
+  .navbar-brand span {
+    color: #ff5e57;
+  }
+  
+  .navbar-nav .nav-link {
+    color: #6c757d;
+    font-size: 1rem;
+    margin-right: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #ff5e57;
+  }
+  
+  .navbar .dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+  }
+  
+  .navbar .dropdown-item:hover {
+    background-color: #ffcccc;
+    color: #ff5e57;
+  }
+  
+  .navbar-toggler {
+    border-color: #ff5e57;
+  }
+  
+  .navbar-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,94,87, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  

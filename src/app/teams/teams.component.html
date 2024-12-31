@@ -1,0 +1,237 @@
+<html>
+<body>
+
+    <!-- Main Content -->
+<div class="modal-backdrop" *ngIf="isModalOpen"></div>
+<div class="content">
+    <div class="table-container">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Teams</h4>
+            <button class="btn btn-add" (click)="openModal()">
+                <i class="fas fa-plus"></i> Add Team
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="mb-3">
+            <input type="text" class="form-control search-bar" placeholder="Search teams...">
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Members Count</th>
+                         <th>Members</th>
+                        <th>Team Leader </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let team of teams">
+                        <!-- <td>
+                            <img src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle me-2">
+                        </td> -->
+
+                        <td>{{ team.name }}</td>
+                        <td>{{ team.teamMembers?.length}}</td>
+                         <td>
+                            <span *ngFor="let member of team.teamMembers">
+                              <span class="badge bg-secondary me-1">{{ member.firstName }} {{member.lastName}}</span>
+                            </span>
+                            </td>
+                        <td>
+                              <span *ngIf="team.teamLeader">
+                                 <span class="badge bg-info me-1">{{ team.teamLeader.firstName }} {{team.teamLeader.lastName}}</span>
+                               </span>
+                           </td>
+            
+                        <td>
+                            <button (click)="openUpdateModal(team)" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                            <button (click)="deleteTeam(team.id)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination (Optional) -->
+        <nav>
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- Modal for Add Team-->
+<div class="modal fade" id="addTeamModal" tabindex="-1" aria-labelledby="addTeamModalLabel"  style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTeamModalLabel">Add Team</h5>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Add Employee Form -->
+                <form (ngSubmit)="onSubmit()">
+                    
+                        <!-- First Name and Last Name side by side -->
+                        <div class="col-md-14">
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="teamName" [(ngModel)]="team.name" name="name" required placeholder="Enter name">
+                            </div>
+                        </div>
+                      
+                    
+                       <div class="mb-3">
+                            <label class="form-label">Team Leader</label>
+                            <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeamLeaders" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Team Leader
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownTeamLeaders">
+                             
+                              
+                            <li *ngFor="let employee of employees" >
+                                    <a class="dropdown-item" (click)="selectTeamLeader(employee)">
+                                  <span *ngIf="team.teamLeader?.id === employee.id" class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                                    {{ employee.firstName }} {{employee.lastName}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                           <div *ngIf="team.teamLeader" class="mt-2">
+                             <span class="badge bg-info me-1 d-inline-flex align-items-center">
+                               {{ team.teamLeader.firstName }}  {{ team.teamLeader.lastName }}
+                               <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectTeamLeader()"></button>
+                             </span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                    <label class="form-label">Team Members</label>
+                     <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeams" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Team Members
+                       </button>
+                       <ul class="dropdown-menu" aria-labelledby="dropdownTeams">
+                        <li *ngFor="let employee of employees" >
+                                 <a class="dropdown-item" (click)="toggleMemberSelection(employee)">
+                            <span *ngIf="isSelectedMember(employee) " class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                              {{ employee.firstName }} {{employee.lastName}}
+                             </a>
+                           </li>
+                         </ul>
+
+                       </div>
+                         <div *ngIf="team.teamMembers && team.teamMembers.length > 0" class="mt-2">
+                                <span *ngFor="let member of team.teamMembers" class="badge bg-secondary me-1 d-inline-flex align-items-center">
+                                    {{ member.firstName }} {{member.lastName}}
+                                    <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectMember(member)"></button>
+                                </span>
+                        </div>
+                    </div>
+
+                    
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Backdrop for Update Modal -->
+<div id="updateModalBackdrop" class="modal-backdrop fade" style="display: none;"></div>
+
+<!-- Modal for Update Team-->
+<div class="modal fade" id="updateTeamModal" tabindex="-1" aria-labelledby="updateTeamModalLabel"  style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateTeamModalLabel">Update Team</h5>
+                <button type="button" class="btn-close" (click)="closeUpdateModal()"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Update TeamForm -->
+                 <form (ngSubmit)="onUpdateSubmit()">
+                    
+                        <!-- First Name and Last Name side by side -->
+                        <div class="col-md-14">
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="teamName" [(ngModel)]="selectedTeam.name" name="name" required placeholder="Enter name">
+                            </div>
+                        </div>
+                      
+                    
+                       <div class="mb-3">
+                            <label class="form-label">Team Leader</label>
+                            <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeamLeaders" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Team Leader
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownTeamLeaders">
+                            <li *ngFor="let employee of employees" >
+                                    <a class="dropdown-item" (click)="selectUpdateTeamLeader(employee)">
+                                  <span *ngIf="selectedTeam.teamLeader?.id === employee.id" class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                                    {{ employee.firstName }} {{employee.lastName}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                           <div *ngIf="selectedTeam.teamLeader" class="mt-2">
+                             <span class="badge bg-info me-1 d-inline-flex align-items-center">
+                               {{ selectedTeam.teamLeader.firstName }}  {{ selectedTeam.teamLeader.lastName }}
+                               <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectUpdateTeamLeader()"></button>
+                             </span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                    <label class="form-label">Team Members</label>
+                     <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeams" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Team Members
+                       </button>
+                       <ul class="dropdown-menu" aria-labelledby="dropdownTeams">
+                        <li *ngFor="let employee of employees" >
+                                 <a class="dropdown-item" (click)="toggleUpdateMemberSelection(employee)">
+                            <span *ngIf="isUpdateSelectedMember(employee) " class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                              {{ employee.firstName }} {{employee.lastName}}
+                             </a>
+                           </li>
+                         </ul>
+
+                       </div>
+                         <div *ngIf="selectedTeam.teamMembers && selectedTeam.teamMembers.length > 0" class="mt-2">
+                                <span *ngFor="let member of selectedTeam.teamMembers" class="badge bg-secondary me-1 d-inline-flex align-items-center">
+                                    {{ member.firstName }} {{member.lastName}}
+                                    <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectUpdateMember(member)"></button>
+                                </span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

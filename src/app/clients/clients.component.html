@@ -1,0 +1,182 @@
+<html>
+    <body>
+
+    <!-- Main Content -->
+<div class="modal-backdrop" *ngIf="isModalOpen"></div>
+<div class="content">
+    <div class="table-container">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Clients</h4>
+            <button class="btn btn-add" (click)="openModal()">
+                <i class="fas fa-plus"></i> Add client
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="mb-3">
+            <input type="text" class="form-control search-bar" placeholder="Search clients...">
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Client</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let client of clients">
+                        <!-- <td>
+                            <img src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle me-2">
+                        </td> -->
+
+                        <td>{{ client.id }}</td>
+                        <td>{{ client.name }}</td>
+                        
+                        <td>{{ client.email }}</td>
+                        <td>{{ client.phoneNumber }}</td>
+                        <td>{{ client.clientType }}</td>
+            
+                        <td>
+                            <button (click)="openUpdateModal(client)" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                            <button (click)="deleteClient(client.id)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination (Optional) -->
+        <nav>
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- Modal for Add client -->
+<div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addClientModalLabel">Add Client</h5>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Add Employee Form -->
+                <form (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <!-- First Name and Last Name side by side -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="clientName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="clientName" [(ngModel)]="client.name" name="name" required placeholder="Enter name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="cleintEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="clientEmail" [(ngModel)]="client.email" name="email" required placeholder="Enter email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Email and Phone Number side by side -->
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="cleintPhone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="cleintPhone" [(ngModel)]="client.phoneNumber" name="phone" required placeholder="Enter phone number">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="clientType" class="form-label">Type</label>
+                                <input type="text" class="form-control" id="clientType" [(ngModel)]="client.clientType" name="position" required placeholder="Enter type">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Backdrop for Update Modal -->
+<div id="updateModalBackdrop" class="modal-backdrop fade" style="display: none;"></div>
+
+<!-- Modal for Update client -->
+<div class="modal fade" id="updateClientModal" tabindex="-1" aria-labelledby="updateClientModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateClientModalLabel">Update Client</h5>
+                <button type="button" class="btn-close" (click)="closeUpdateModal()"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Update client Form -->
+                <form (ngSubmit)="onUpdateSubmit()">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="updatefirstName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="updatefirstName" [(ngModel)]="selectedClient.name" name="firstName" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="updateEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="updateEmail" [(ngModel)]="selectedClient.email" name="email" required>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="updatePhone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="updatePhone" [(ngModel)]="selectedClient.phoneNumber" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="updateProfile" class="form-label">Profile</label>
+                                <input type="text" class="form-control" id="updateProfile" [(ngModel)]="selectedClient.clientType" name="type" required>
+                            </div>
+                        </div>
+                    </div>
+                        
+                        <!-- <label for="updateStatus" class="form-label">Status</label>
+                        <select class="form-control" id="updateStatus" [(ngModel)]="selectedClient.status" name="status" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select> -->
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

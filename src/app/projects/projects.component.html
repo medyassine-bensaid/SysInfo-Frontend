@@ -1,0 +1,260 @@
+<html>
+<body>
+
+    <!-- Main Content -->
+<div class="modal-backdrop" *ngIf="isModalOpen"></div>
+<div class="content">
+    <div class="table-container">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Projects</h4>
+            <button class="btn btn-add" (click)="openModal()">
+                <i class="fas fa-plus"></i> Add project
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="mb-3">
+            <input type="text" class="form-control search-bar" placeholder="Search projects...">
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Teams</th>
+                        <th>Clients</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let project of projects">
+                     
+                        <td>{{ project.name }}</td>
+                        <td>{{ project.startDate | date:'yyyy-MM-dd' }}</td>
+                        <td>{{ project.endDate | date:'yyyy-MM-dd' }}</td>
+                        <td>
+                            <span *ngFor="let team of project.teams">
+                              <span class="badge bg-secondary me-1">{{ team.name }}</span>
+                            </span>
+                            </td>
+                            <td>
+                                <span *ngFor="let client of project.clients">
+                                    <span class="badge bg-info me-1">{{ client.name }}</span>
+                                </span>
+                            </td>
+                        <td>
+                            <button (click)="openUpdateModal(project)" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                            <button (click)="deleteProject(project.id)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination (Optional) -->
+        <nav>
+            <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- Modal for Add project -->
+<div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProjectModalLabel">Add Project</h5>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Add Employee Form -->
+                <form (ngSubmit)="onSubmit()">
+                    
+                        <!-- First Name and Last Name side by side -->
+                        <div class="col-md-14">
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="teamName" [(ngModel)]="project.name" name="name" required placeholder="Enter name">
+                            </div>
+                        </div>
+                      
+                    <div class="row">
+                        <!-- First Name and Last Name side by side -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="startDate" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="projectStartDate" [(ngModel)]="project.startDate" name="name" required >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="projectEmail" [(ngModel)]="project.endDate" name="email" required >
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                    <label class="form-label">Teams</label>
+                     <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeams" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Teams
+                       </button>
+                       <ul class="dropdown-menu" aria-labelledby="dropdownTeams">
+                        <li *ngFor="let team of teams" >
+                                 <a class="dropdown-item" (click)="toggleTeamSelection(team)">
+                            <span *ngIf="isSelectedTeam(team) " class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                              {{ team.name }}
+                             </a>
+                           </li>
+                         </ul>
+
+                       </div>
+                         <div *ngIf="project.teams && project.teams.length > 0" class="mt-2">
+                                <span *ngFor="let team of project.teams" class="badge bg-secondary me-1 d-inline-flex align-items-center">
+                                    {{ team.name }}
+                                    <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectTeam(team)"></button>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                         <label class="form-label">Clients</label>
+                         <div class="dropdown">
+                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownClients" data-bs-toggle="dropdown" aria-expanded="false">
+                          Select Clients
+                         </button>
+                         <ul class="dropdown-menu" aria-labelledby="dropdownClients">
+                          <li *ngFor="let client of clients">
+                             <a class="dropdown-item" (click)="toggleClientSelection(client)">
+                            <span *ngIf="isSelectedClient(client)" class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                                 {{ client.name }}
+                             </a>
+                             </li>
+                           </ul>
+                        </div>
+                       <div *ngIf="project.clients && project.clients.length > 0" class="mt-2">
+                             <span *ngFor="let client of project.clients" class="badge bg-info me-1 d-inline-flex align-items-center">
+                               {{ client.name }}
+                             <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectClient(client)"></button>
+                            </span>
+                          </div>
+                     </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Backdrop for Update Modal -->
+<div id="updateModalBackdrop" class="modal-backdrop fade" style="display: none;"></div>
+
+<!-- Modal for Update project -->
+<div class="modal fade" id="updateProjectModal" tabindex="-1" aria-labelledby="updateProjectModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateProjectModalLabel">Update Project</h5>
+                <button type="button" class="btn-close" (click)="closeUpdateModal()"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Update project Form -->
+                 <form (ngSubmit)="onUpdateSubmit()">
+                    
+                        <!-- First Name and Last Name side by side -->
+                        <div class="col-md-14">
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="teamName" [(ngModel)]="selectedProject.name" name="name" required placeholder="Enter name">
+                            </div>
+                        </div>
+                      
+                    <div class="row">
+                        <!-- First Name and Last Name side by side -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="startDate" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="projectStartDate" [(ngModel)]="selectedProject.startDate" name="name" required >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="projectEmail" [(ngModel)]="selectedProject.endDate" name="email" required >
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                    <label class="form-label">Teams</label>
+                     <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeams" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Teams
+                       </button>
+                       <ul class="dropdown-menu" aria-labelledby="dropdownTeams">
+                        <li *ngFor="let team of teams" >
+                                 <a class="dropdown-item" (click)="toggleUpdateTeamSelection(team)">
+                            <span *ngIf="isUpdateSelectedTeam(team) " class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                              {{ team.name }}
+                             </a>
+                           </li>
+                         </ul>
+
+                       </div>
+                         <div *ngIf="selectedProject.teams && selectedProject.teams.length > 0" class="mt-2">
+                                <span *ngFor="let team of selectedProject.teams" class="badge bg-secondary me-1 d-inline-flex align-items-center">
+                                    {{ team.name }}
+                                    <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectUpdateTeam(team)"></button>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                         <label class="form-label">Clients</label>
+                         <div class="dropdown">
+                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownClients" data-bs-toggle="dropdown" aria-expanded="false">
+                          Select Clients
+                         </button>
+                         <ul class="dropdown-menu" aria-labelledby="dropdownClients">
+                          <li *ngFor="let client of clients">
+                             <a class="dropdown-item" (click)="toggleUpdateClientSelection(client)">
+                            <span *ngIf="isUpdateSelectedClient(client)" class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                                 {{ client.name }}
+                             </a>
+                             </li>
+                           </ul>
+                        </div>
+                       <div *ngIf="selectedProject.clients && selectedProject.clients.length > 0" class="mt-2">
+                             <span *ngFor="let client of selectedProject.clients" class="badge bg-info me-1 d-inline-flex align-items-center">
+                               {{ client.name }}
+                             <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectUpdateClient(client)"></button>
+                            </span>
+                          </div>
+                     </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

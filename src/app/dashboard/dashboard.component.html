@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Dashboard</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js for Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- External CSS -->
+    <link rel="stylesheet" >
+</head>
+<body>
+    <div class="main-container">
+        <div class="container py-4">
+            <!-- Stats Section -->
+            <div class="row mb-4">
+                <div class="col-md-3 col-6">
+                    <div class="card stat-card text-center p-3 bg-pastel-green">
+                        <h5>Yearly Earning</h5>
+                        <h3>$21k</h3>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card stat-card text-center p-3 bg-pastel-yellow">
+                        <h5>Refund Given</h5>
+                        <h3>$1k</h3>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card stat-card text-center p-3 bg-pastel-orange">
+                        <h5>Yearly Projects</h5>
+                        <h3>456</h3>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card stat-card text-center p-3 bg-pastel-blue">
+                        <h5>Weekly Sales</h5>
+                        <h3>210</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Summary and Feeds -->
+            <div class="row mb-4">
+                <div class="col-lg-8">
+                    <div class="card p-3">
+                        <h5>Sales Summary</h5>
+                        <div class="chart-container">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card p-3 feeds-section">
+                        <h5>Feeds</h5>
+                        <ul>
+                            <li><i class="fas fa-tasks text-primary"></i> You have 4 pending tasks <span class="text-muted">Just now</span></li>
+                            <li><i class="fas fa-server text-warning"></i> Server #1 overloaded <span class="text-muted">2 Hours ago</span></li>
+                            <li><i class="fas fa-shopping-cart text-success"></i> New order received <span class="text-muted">31 May</span></li>
+                            <li><i class="fas fa-user text-danger"></i> New user registered <span class="text-muted">30 May</span></li>
+                            <li><i class="fas fa-tasks text-primary"></i> You have 4 pending tasks <span class="text-muted">Just now</span></li>
+                            <li><i class="fas fa-server text-warning"></i> Server #1 overloaded <span class="text-muted">2 Hours ago</span></li>
+                            <li><i class="fas fa-shopping-cart text-success"></i> New order received <span class="text-muted">31 May</span></li>
+                            <li><i class="fas fa-user text-danger"></i> New user registered <span class="text-muted">30 May</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Selling Projects -->
+            <div class="card p-3">
+                <h5>Top Selling</h5>
+                <p>Overview of the projects</p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Team Lead</th>
+                                <th>Project</th>
+                                <th>Status</th>
+                                <th>Weeks</th>
+                                <th>Budget</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle me-2">
+                                    Hanna Gover
+                                </td>
+                                <td>Flexy React</td>
+                                <td><span class="status-dot active"></span> Active</td>
+                                <td>35</td>
+                                <td>$95K</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle me-2">
+                                    Hanna Gover
+                                </td>
+                                <td>Flexy React</td>
+                                <td><span class="status-dot active"></span> Active</td>
+                                <td>35</td>
+                                <td>$95K</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle me-2">
+                                    Hanna Gover
+                                </td>
+                                <td>Flexy React</td>
+                                <td><span class="status-dot active"></span> Active</td>
+                                <td>35</td>
+                                <td>$95K</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle me-2">
+                                    Hanna Gover
+                                </td>
+                                <td>Flexy React</td>
+                                <td><span class="status-dot active"></span> Active</td>
+                                <td>35</td>
+                                <td>$95K</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sales Chart
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug'],
+                datasets: [{
+                    label: 'iPhone 13',
+                    data: [30, 50, 40, 70, 80, 90, 100, 120],
+                    borderColor: '#c7b3e5',
+                    backgroundColor: 'rgba(199, 179, 229, 0.2)',
+                    fill: true,
+                }, {
+                    label: 'Oneplus 9',
+                    data: [20, 40, 30, 60, 70, 80, 110, 90],
+                    borderColor: '#b2d4cf',
+                    backgroundColor: 'rgba(178, 212, 207, 0.2)',
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                }
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
