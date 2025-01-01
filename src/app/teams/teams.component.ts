@@ -38,7 +38,7 @@ export class TeamsComponent implements OnInit {
     ) {} // Inject the EmployeeService
 
     ngOnInit(): void {
-        // this.loadTeams();
+        this.loadTeams();
         this.loadEmployees();
     }
 
@@ -142,7 +142,7 @@ export class TeamsComponent implements OnInit {
 
      // Team Leader Selection Logic (Add Modal)
     selectTeamLeader(employee: Employee): void {
-    this.team.teamLeader = employee;
+        this.team.teamLeader = employee;
     }
     unselectTeamLeader(): void {
     this.team.teamLeader = undefined;
@@ -175,7 +175,8 @@ export class TeamsComponent implements OnInit {
     }
     // Team Leader Selection Logic (Update Modal)
     selectUpdateTeamLeader(employee: Employee): void {
-    this.selectedTeam.teamLeader = employee;
+        console.log(employee.firstName);
+        this.selectedTeam.teamLeader = employee;
     }
     unselectUpdateTeamLeader(): void {
     this.selectedTeam.teamLeader = undefined;

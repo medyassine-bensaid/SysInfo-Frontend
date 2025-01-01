@@ -37,7 +37,7 @@
                         </td> -->
 
                         <td>{{ team.name }}</td>
-                        <td>{{ team.teamMembers?.length}}</td>
+                        <td>{{ team.teamMembers==null?0:team.teamMembers.length}}</td>
                          <td>
                             <span *ngFor="let member of team.teamMembers">
                               <span class="badge bg-secondary me-1">{{ member.firstName }} {{member.lastName}}</span>
@@ -188,7 +188,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownTeamLeaders">
                             <li *ngFor="let employee of employees" >
                                     <a class="dropdown-item" (click)="selectUpdateTeamLeader(employee)">
-                                  <span *ngIf="selectedTeam.teamLeader?.id === employee.id" class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                                  <span *ngIf="selectedTeam.teamLeaderId === employee.id" class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
                                     {{ employee.firstName }} {{employee.lastName}}
                                     </a>
                                 </li>

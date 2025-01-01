@@ -7,7 +7,7 @@ export class Team {
     members!: number;
    // teamLeader!: string;
 
-   // teamLeaderId?: number;
+   teamLeaderId?: number;
   teamLeader?: Employee; // Leader of the team
 
   teamMembers?: Employee[]; // Members of the team
