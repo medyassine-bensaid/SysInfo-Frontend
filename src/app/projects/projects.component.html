@@ -100,13 +100,13 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="startDate" class="form-label">Start Date</label>
-                                <input type="date" class="form-control" id="projectStartDate" [(ngModel)]="project.startDate" name="name" required >
+                                <input type="date" class="form-control" id="projectStartDate" [(ngModel)]="project.startDate" name="start" required >
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="endDate" class="form-label">End Date</label>
-                                <input type="date" class="form-control" id="projectEmail" [(ngModel)]="project.endDate" name="email" required >
+                                <input type="date" class="form-control" id="projectEmail" [(ngModel)]="project.endDate" name="end" required >
                             </div>
                         </div>
                     </div>
@@ -125,9 +125,9 @@
                              </a>
                            </li>
                          </ul>
-
                        </div>
-                         <div *ngIf="project.teams && project.teams.length > 0" class="mt-2">
+                        <!-- **************************** -->
+                         <!-- <div *ngIf="project.teams && project.teams.length > 0" class="mt-2">
                                 <span *ngFor="let team of project.teams" class="badge bg-secondary me-1 d-inline-flex align-items-center">
                                     {{ team.name }}
                                     <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectTeam(team)"></button>
@@ -155,11 +155,63 @@
                              <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectClient(client)"></button>
                             </span>
                           </div>
-                     </div>
-                    
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
-            </div>
+                            -->
+                           <!-- ******************************************** -->
+
+                           <!-- Teams Section -->
+<!-- <div class="mb-3">
+    <label class="form-label">Teams</label>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeams" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Teams
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownTeams">
+            <li *ngFor="let team of teams">
+                <a class="dropdown-item" (click)="toggleTeamSelection(team)">
+                    <span *ngIf="isSelectedTeam(team)" class="me-2 text-success">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                    {{ team.name }}
+                </a>
+            </li>
+        </ul>
+    </div> -->
+    <div *ngIf="getSelectedTeams().length > 0" class="mt-2">
+        <span *ngFor="let team of getSelectedTeams()" class="badge bg-secondary me-1 d-inline-flex align-items-center">
+            {{ team.name }}
+            <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectTeam(team)"></button>
+        </span>
+    </div>
+</div>
+
+<!-- Clients Section -->
+<div class="mb-3">
+    <label class="form-label">Clients</label>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownClients" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Clients
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownClients">
+            <li *ngFor="let client of clients">
+                <a class="dropdown-item" (click)="toggleClientSelection(client)">
+                    <span *ngIf="isSelectedClient(client)" class="me-2 text-success">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                    {{ client.name }}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="getSelectedClients().length > 0" class="mt-2">
+        <span *ngFor="let client of getSelectedClients()" class="badge bg-info me-1 d-inline-flex align-items-center">
+            {{ client.name }}
+            <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectClient(client)"></button>
+        </span>
+    </div>
+</div>
+<button type="submit" class="btn btn-primary">Save</button>
+</form>
+                </div>
         </div>
     </div>
 </div>
@@ -192,33 +244,35 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="startDate" class="form-label">Start Date</label>
-                                <input type="date" class="form-control" id="projectStartDate" [(ngModel)]="selectedProject.startDate" name="name" required >
+                                <input type="date" class="form-control" id="projectStartDate" [(ngModel)]="selectedProject.startDate" name="start" required >
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="endDate" class="form-label">End Date</label>
-                                <input type="date" class="form-control" id="projectEmail" [(ngModel)]="selectedProject.endDate" name="email" required >
+                                <input type="date" class="form-control" id="projectEmail" [(ngModel)]="selectedProject.endDate" name="end" required >
                             </div>
                         </div>
                     </div>
                     
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                     <label class="form-label">Teams</label>
                      <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeams" data-bs-toggle="dropdown" aria-expanded="false">
                         Select Teams
                        </button>
                        <ul class="dropdown-menu" aria-labelledby="dropdownTeams">
+
                         <li *ngFor="let team of teams" >
-                                 <a class="dropdown-item" (click)="toggleUpdateTeamSelection(team)">
-                            <span *ngIf="isUpdateSelectedTeam(team) " class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
+                                 <a class="dropdown-item" (click)="toggleTeamSelection(team)">
+                            <span *ngIf="isSelectedTeam(team) " class="me-2 text-success"> <i class="fas fa-check-circle"></i></span>
                               {{ team.name }}
                              </a>
                            </li>
                          </ul>
-
-                       </div>
+                        </div> -->
+                       <!-- 
+                        
                          <div *ngIf="selectedProject.teams && selectedProject.teams.length > 0" class="mt-2">
                                 <span *ngFor="let team of selectedProject.teams" class="badge bg-secondary me-1 d-inline-flex align-items-center">
                                     {{ team.name }}
@@ -246,9 +300,59 @@
                                {{ client.name }}
                              <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectUpdateClient(client)"></button>
                             </span>
-                          </div>
-                     </div>
-                    
+                          </div> -->
+
+                          <!-- Teams Section -->
+<div class="mb-3">
+    <label class="form-label">Teams</label>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownTeams" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Teams
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownTeams">
+            <li *ngFor="let team of teams">
+                <a class="dropdown-item" (click)="toggleTeamSelection(team)">
+                    <span *ngIf="isSelectedTeam(team)" class="me-2 text-success">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                    {{ team.name }}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="getSelectedTeams().length > 0" class="mt-2">
+        <span *ngFor="let team of getSelectedTeams()" class="badge bg-secondary me-1 d-inline-flex align-items-center">
+            {{ team.name }}
+            <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectTeam(team)"></button>
+        </span>
+    </div>
+</div>
+
+<!-- Clients Section -->
+<div class="mb-3">
+    <label class="form-label">Clients</label>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownClients" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Clients
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownClients">
+            <li *ngFor="let client of clients">
+                <a class="dropdown-item" (click)="toggleClientSelection(client)">
+                    <span *ngIf="isSelectedClient(client)" class="me-2 text-success">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                    {{ client.name }}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="getSelectedClients().length > 0" class="mt-2">
+        <span *ngFor="let client of getSelectedClients()" class="badge bg-info me-1 d-inline-flex align-items-center">
+            {{ client.name }}
+            <button type="button" class="btn-close btn-close-white ms-2" (click)="unselectClient(client)"></button>
+        </span>
+    </div>
+</div>                    
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
             </div>

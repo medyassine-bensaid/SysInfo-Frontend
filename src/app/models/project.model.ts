@@ -10,8 +10,11 @@ export class Project {
     //client!: string;
 
   //clientId?: number;
-  clients?: Client[]; // The client for the project
+   clients?: Client[]; // The client for the project
 
-  teams?: Team[]; // Teams working on the project
+   teams?: Team[]; // Teams working on the project
+
+  TeamIds!: number[];
+    ClientIds!: number[];
   }
   

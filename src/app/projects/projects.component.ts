@@ -1,6 +1,288 @@
-import { Component , OnInit} from '@angular/core';
+// import { Component , OnInit} from '@angular/core';
+// import { ProjectService } from '../services/project.service';
+// import {  Project } from '../models/project.model';
+// import { Team } from '../models/team.model';
+// import { Client } from '../models/client.model';
+// import { TeamService } from '../services/team.service';
+// import { ClientService } from '../services/client.service';
+
+// @Component({
+//   selector: 'app-projects',
+//   templateUrl: './projects.component.html',
+//   styleUrls: ['./projects.component.css']
+// })
+// export class ProjectsComponent  implements OnInit {
+
+//   teams: Team[] = [];
+//   clients: Client[] = [];
+//   projects: Project[] = [];
+//   project: Project = {
+//     id: 0,
+//     name: '',
+//     startDate: new Date(),
+//     endDate: new Date(),
+//     TeamIds: [],
+//     ClientIds: [],
+
+//   };
+//   selectedProject: Project = {
+//     id: 0,
+//     name: '',
+//     startDate: new Date(),
+//     endDate: new Date(),
+//     TeamIds: [],
+//     ClientIds: [],
+
+
+// };
+
+//   isModalOpen = false;
+//   isUpdateModalOpen = false;
+
+//   constructor(private projectService: ProjectService , private teamService: TeamService , private clientService: ClientService) {}
+
+//   ngOnInit(): void {
+//       this.loadTeams();
+//       this.loadClients();
+//       this.loadProjects();
+//   }
+
+//     loadTeams(): void {
+//     this.teamService.getTeams().subscribe(
+//       (data) => (this.teams = data),
+//       (error) => console.error('Failed to fetch teams:', error)
+//     );
+//   }
+//   loadClients(): void {
+//       this.clientService.getClients().subscribe(
+//         (data) => (this.clients = data),
+//         (error) => console.error('Failed to fetch clients:', error)
+//       );
+//     }
+
+//   loadProjects(): void {
+//     this.projectService.getProjects().subscribe(
+//       (data) => (this.projects = data),
+//       (error) => console.error('Failed to fetch projects:', error)
+//     );
+//   }
+
+//   // Open Add Modal
+//   openModal(): void {
+//     const modal = document.getElementById('addProjectModal');
+//     if (modal) {
+//       modal.classList.add('show');
+//       modal.style.display = 'block';
+//       this.isModalOpen = true;
+//       this.resetProjectForm();
+//     }
+//   }
+
+//   // Close Add Modal
+//   closeModal(): void {
+//     const modal = document.getElementById('addProjectModal');
+//     if (modal) {
+//       modal.classList.remove('show');
+//       modal.style.display = 'none';
+//       this.isModalOpen = false;
+//     }
+//   }
+
+//   // Add project
+//   onSubmit(): void {
+//       this.project.startDate = new Date(this.project.startDate);
+//       this.project.endDate = new Date(this.project.endDate);
+//     this.projectService.addProject(this.project).subscribe(
+//       () => {
+//         this.loadProjects();
+//         this.closeModal();
+//         this.resetProjectForm();
+//       },
+//       (error) => console.error('Failed to add project:', error)
+//     );
+//   }
+
+//   resetProjectForm(): void {
+//     this.project = {
+//       id: 0,
+//       name: '',
+//       startDate: new Date(),
+//       endDate: new Date(),
+//       TeamIds: [],
+//     ClientIds: [],
+
+
+//     };
+//   }
+
+
+
+//     // Team Selection Logic (Add modal)
+//   toggleTeamSelection(team: Team): void {
+//     if(this.project.teams){
+//     if (this.isSelectedTeam(team)) {
+//       this.project.teams = this.project.teams.filter((t) => t.id !== team.id);
+//     } else {
+//       this.project.teams.push(team);
+//     }
+//   }
+//     else {
+//         this.project.teams = [team] ;
+//     }
+//   }
+
+//   isSelectedTeam(team: Team): boolean {
+//     return !!this.project.teams?.find((t) => t.id === team.id);
+//   }
+//     unselectTeam(team: Team): void {
+//         if (this.project.teams) {
+//            this.project.teams = this.project.teams.filter((t) => t.id !== team.id);
+//         }
+//     }
+//     // Client Selection Logic (Add modal)
+//     toggleClientSelection(client: Client): void {
+//         if (this.project.clients){
+//             if (this.isSelectedClient(client)) {
+//             this.project.clients = this.project.clients.filter((c) => c.id !== client.id);
+//             } else {
+//                 this.project.clients.push(client);
+//             }
+//         }
+//         else {
+//            this.project.clients = [client];
+//         }
+
+//     }
+//   isSelectedClient(client: Client): boolean {
+//     return !!this.project.clients?.find((c) => c.id === client.id);
+//   }
+//     unselectClient(client: Client): void {
+//         if (this.project.clients) {
+//             this.project.clients = this.project.clients.filter((c) => c.id !== client.id);
+//         }
+//     }
+
+//     // Team Selection Logic (Update Modal)
+//     toggleUpdateTeamSelection(team: Team): void {
+//         if(this.selectedProject.teams){
+//             if (this.isUpdateSelectedTeam(team)) {
+//                 this.selectedProject.teams = this.selectedProject.teams.filter((t) => t.id !== team.id);
+//             } else {
+//                 this.selectedProject.teams.push(team);
+//             }
+//         }
+//         else {
+//             this.selectedProject.teams= [team] ;
+//         }
+//     }
+
+//     isUpdateSelectedTeam(team: Team): boolean {
+//         return !!this.selectedProject.teams?.find((t) => t.id === team.id);
+//     }
+//     unselectUpdateTeam(team: Team): void {
+//         if(this.selectedProject.teams) {
+//           this.selectedProject.teams=  this.selectedProject.teams.filter((t) => t.id !== team.id);
+//         }
+//     }
+// // Client Selection Logic (Update Modal)
+//     toggleUpdateClientSelection(client: Client): void {
+//         if (this.selectedProject.clients){
+//             if (this.isUpdateSelectedClient(client)) {
+//                 this.selectedProject.clients = this.selectedProject.clients.filter((c) => c.id !== client.id);
+//             } else {
+//                 this.selectedProject.clients.push(client);
+//             }
+//         }
+//         else {
+//             this.selectedProject.clients = [client];
+//         }
+
+//     }
+//     isUpdateSelectedClient(client: Client): boolean {
+//         return !!this.selectedProject.clients?.find((c) => c.id === client.id);
+//     }
+//     unselectUpdateClient(client: Client): void {
+//         if (this.selectedProject.clients){
+//           this.selectedProject.clients=  this.selectedProject.clients.filter((c) => c.id !== client.id);
+//         }
+//     }
+
+  
+//   // Open Update Modal
+//   openUpdateModal(project: Project): void {
+//     this.selectedProject = { ...project,  startDate: new Date(project.startDate),
+//     endDate: new Date(project.endDate),};
+
+//     const modal = document.getElementById('updateProjectModal');
+//     if (modal) {
+//       modal.classList.add('show');
+//       modal.style.display = 'block';
+//       this.isUpdateModalOpen = true;
+//     }
+//   }
+
+//   // Close Update Modal
+//   closeUpdateModal(): void {
+//     const modal = document.getElementById('updateProjectModal');
+//     if (modal) {
+//       modal.classList.remove('show');
+//       modal.style.display = 'none';
+//       this.isUpdateModalOpen = false;
+//     }
+
+
+//   }
+
+//   // Update Employee
+//   onUpdateSubmit(): void {
+//       if (this.selectedProject) {
+//           this.selectedProject.startDate = new Date(this.selectedProject.startDate);
+//           this.selectedProject.endDate = new Date(this.selectedProject.endDate);
+//       this.projectService.updateProject(this.selectedProject.id, this.selectedProject).subscribe(
+//         () => {
+//           this.loadProjects();
+//           this.closeUpdateModal();
+//         },
+//         (error) => console.error('Failed to update project:', error)
+//       );
+//     }
+//   }
+
+  
+//   fetchEmployees(): void {
+//     this.projectService.getProjects().subscribe(
+//       (data) => {
+//         this.projects = data; // Assuming `employees` is an array
+//       },
+//       (error) => {
+//         console.error('Error fetching projects:', error);
+//       }
+//     );
+//   }
+  
+//   deleteProject(id: number): void {
+//     if (confirm('Are you sure you want to delete this project?')) {
+//       this.projectService.deleteProject(id).subscribe(
+//         () => {
+//           console.log(`project with ID ${id} deleted successfully.`);
+//           this.fetchEmployees(); // Refresh the project list after deletion
+
+//         },
+//         (error) => {
+//           console.error('Error deleting project:', error);
+//         }
+//       );
+//     }
+//   }
+// }
+
+
+
+/////////////////
+
+import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../services/project.service';
-import {  Project } from '../models/project.model';
+import { Project } from '../models/project.model';
 import { Team } from '../models/team.model';
 import { Client } from '../models/client.model';
 import { TeamService } from '../services/team.service';
@@ -11,8 +293,7 @@ import { ClientService } from '../services/client.service';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent  implements OnInit {
-
+export class ProjectsComponent implements OnInit {
   teams: Team[] = [];
   clients: Client[] = [];
   projects: Project[] = [];
@@ -21,43 +302,46 @@ export class ProjectsComponent  implements OnInit {
     name: '',
     startDate: new Date(),
     endDate: new Date(),
-    teams: [],
-    clients: [],
-
+    TeamIds: [],
+    ClientIds: [],
   };
   selectedProject: Project = {
     id: 0,
     name: '',
     startDate: new Date(),
     endDate: new Date(),
-    teams: [],
-    clients: [],
-
-
-};
+    TeamIds: [],
+    ClientIds: [],
+  };
 
   isModalOpen = false;
   isUpdateModalOpen = false;
 
-  constructor(private projectService: ProjectService , private teamService: TeamService , private clientService: ClientService) {}
+  constructor(
+    private projectService: ProjectService,
+    private teamService: TeamService,
+    private clientService: ClientService
+  ) {}
 
   ngOnInit(): void {
-      this.loadTeams();
-      this.loadClients();
+    this.loadTeams();
+    this.loadClients();
+    this.loadProjects();
   }
 
-    loadTeams(): void {
+  loadTeams(): void {
     this.teamService.getTeams().subscribe(
       (data) => (this.teams = data),
       (error) => console.error('Failed to fetch teams:', error)
     );
   }
+
   loadClients(): void {
-      this.clientService.getClients().subscribe(
-        (data) => (this.clients = data),
-        (error) => console.error('Failed to fetch clients:', error)
-      );
-    }
+    this.clientService.getClients().subscribe(
+      (data) => (this.clients = data),
+      (error) => console.error('Failed to fetch clients:', error)
+    );
+  }
 
   loadProjects(): void {
     this.projectService.getProjects().subscribe(
@@ -66,7 +350,6 @@ export class ProjectsComponent  implements OnInit {
     );
   }
 
-  // Open Add Modal
   openModal(): void {
     const modal = document.getElementById('addProjectModal');
     if (modal) {
@@ -77,7 +360,6 @@ export class ProjectsComponent  implements OnInit {
     }
   }
 
-  // Close Add Modal
   closeModal(): void {
     const modal = document.getElementById('addProjectModal');
     if (modal) {
@@ -87,10 +369,9 @@ export class ProjectsComponent  implements OnInit {
     }
   }
 
-  // Add project
   onSubmit(): void {
-      this.project.startDate = new Date(this.project.startDate);
-      this.project.endDate = new Date(this.project.endDate);
+    this.project.startDate = new Date(this.project.startDate);
+    this.project.endDate = new Date(this.project.endDate);
     this.projectService.addProject(this.project).subscribe(
       () => {
         this.loadProjects();
@@ -107,109 +388,62 @@ export class ProjectsComponent  implements OnInit {
       name: '',
       startDate: new Date(),
       endDate: new Date(),
-      teams: [],
-        clients: [],
-
+      TeamIds: [],
+      ClientIds: [],
     };
   }
 
-
-
-    // Team Selection Logic (Add modal)
+  // Team Selection
   toggleTeamSelection(team: Team): void {
-    if(this.project.teams){
-    if (this.isSelectedTeam(team)) {
-      this.project.teams = this.project.teams.filter((t) => t.id !== team.id);
+    const index = this.project.TeamIds.indexOf(team.id);
+    if (index > -1) {
+      this.project.TeamIds.splice(index, 1);
     } else {
-      this.project.teams.push(team);
-    }
-  }
-    else {
-        this.project.teams = [team] ;
+      this.project.TeamIds.push(team.id);
     }
   }
 
   isSelectedTeam(team: Team): boolean {
-    return !!this.project.teams?.find((t) => t.id === team.id);
+    return this.project.TeamIds.includes(team.id);
   }
-    unselectTeam(team: Team): void {
-        if (this.project.teams) {
-           this.project.teams = this.project.teams.filter((t) => t.id !== team.id);
-        }
-    }
-    // Client Selection Logic (Add modal)
-    toggleClientSelection(client: Client): void {
-        if (this.project.clients){
-            if (this.isSelectedClient(client)) {
-            this.project.clients = this.project.clients.filter((c) => c.id !== client.id);
-            } else {
-                this.project.clients.push(client);
-            }
-        }
-        else {
-           this.project.clients = [client];
-        }
 
+  unselectTeam(team: Team): void {
+    this.project.TeamIds = this.project.TeamIds.filter((id) => id !== team.id);
+  }
+
+  getSelectedTeams(): Team[] {
+    return this.teams.filter((team) => this.project.TeamIds.includes(team.id));
+  }
+
+  // Client Selection
+  toggleClientSelection(client: Client): void {
+    const index = this.project.ClientIds.indexOf(client.id);
+    if (index > -1) {
+      this.project.ClientIds.splice(index, 1);
+    } else {
+      this.project.ClientIds.push(client.id);
     }
+  }
+
   isSelectedClient(client: Client): boolean {
-    return !!this.project.clients?.find((c) => c.id === client.id);
+    return this.project.ClientIds.includes(client.id);
   }
-    unselectClient(client: Client): void {
-        if (this.project.clients) {
-            this.project.clients = this.project.clients.filter((c) => c.id !== client.id);
-        }
-    }
 
-    // Team Selection Logic (Update Modal)
-    toggleUpdateTeamSelection(team: Team): void {
-        if(this.selectedProject.teams){
-            if (this.isUpdateSelectedTeam(team)) {
-                this.selectedProject.teams = this.selectedProject.teams.filter((t) => t.id !== team.id);
-            } else {
-                this.selectedProject.teams.push(team);
-            }
-        }
-        else {
-            this.selectedProject.teams= [team] ;
-        }
-    }
+  unselectClient(client: Client): void {
+    this.project.ClientIds = this.project.ClientIds.filter((id) => id !== client.id);
+  }
 
-    isUpdateSelectedTeam(team: Team): boolean {
-        return !!this.selectedProject.teams?.find((t) => t.id === team.id);
-    }
-    unselectUpdateTeam(team: Team): void {
-        if(this.selectedProject.teams) {
-          this.selectedProject.teams=  this.selectedProject.teams.filter((t) => t.id !== team.id);
-        }
-    }
-// Client Selection Logic (Update Modal)
-    toggleUpdateClientSelection(client: Client): void {
-        if (this.selectedProject.clients){
-            if (this.isUpdateSelectedClient(client)) {
-                this.selectedProject.clients = this.selectedProject.clients.filter((c) => c.id !== client.id);
-            } else {
-                this.selectedProject.clients.push(client);
-            }
-        }
-        else {
-            this.selectedProject.clients = [client];
-        }
+  getSelectedClients(): Client[] {
+    return this.clients.filter((client) => this.project.ClientIds.includes(client.id));
+  }
 
-    }
-    isUpdateSelectedClient(client: Client): boolean {
-        return !!this.selectedProject.clients?.find((c) => c.id === client.id);
-    }
-    unselectUpdateClient(client: Client): void {
-        if (this.selectedProject.clients){
-          this.selectedProject.clients=  this.selectedProject.clients.filter((c) => c.id !== client.id);
-        }
-    }
-
-  
-  // Open Update Modal
+  // Update Modal Logic
   openUpdateModal(project: Project): void {
-    this.selectedProject = { ...project,  startDate: new Date(project.startDate),
-    endDate: new Date(project.endDate),};
+    this.selectedProject = {
+      ...project,
+      startDate: new Date(project.startDate),
+      endDate: new Date(project.endDate),
+    };
 
     const modal = document.getElementById('updateProjectModal');
     if (modal) {
@@ -219,7 +453,6 @@ export class ProjectsComponent  implements OnInit {
     }
   }
 
-  // Close Update Modal
   closeUpdateModal(): void {
     const modal = document.getElementById('updateProjectModal');
     if (modal) {
@@ -227,48 +460,27 @@ export class ProjectsComponent  implements OnInit {
       modal.style.display = 'none';
       this.isUpdateModalOpen = false;
     }
-
-
   }
 
-  // Update Employee
   onUpdateSubmit(): void {
-      if (this.selectedProject) {
-          this.selectedProject.startDate = new Date(this.selectedProject.startDate);
-          this.selectedProject.endDate = new Date(this.selectedProject.endDate);
-      this.projectService.updateProject(this.selectedProject.id, this.selectedProject).subscribe(
-        () => {
-          this.loadProjects();
-          this.closeUpdateModal();
-        },
-        (error) => console.error('Failed to update project:', error)
-      );
-    }
-  }
-
-  
-  fetchEmployees(): void {
-    this.projectService.getProjects().subscribe(
-      (data) => {
-        this.projects = data; // Assuming `employees` is an array
+    this.selectedProject.startDate = new Date(this.selectedProject.startDate);
+    this.selectedProject.endDate = new Date(this.selectedProject.endDate);
+    this.projectService.updateProject(this.selectedProject.id, this.selectedProject).subscribe(
+      () => {
+        this.loadProjects();
+        this.closeUpdateModal();
       },
-      (error) => {
-        console.error('Error fetching projects:', error);
-      }
+      (error) => console.error('Failed to update project:', error)
     );
   }
-  
+
   deleteProject(id: number): void {
     if (confirm('Are you sure you want to delete this project?')) {
       this.projectService.deleteProject(id).subscribe(
         () => {
-          console.log(`project with ID ${id} deleted successfully.`);
-          this.fetchEmployees(); // Refresh the project list after deletion
-
+          this.loadProjects();
         },
-        (error) => {
-          console.error('Error deleting project:', error);
-        }
+        (error) => console.error('Error deleting project:', error)
       );
     }
   }
