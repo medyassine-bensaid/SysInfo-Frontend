@@ -313,6 +313,8 @@ export class ProjectsComponent implements OnInit {
     TeamIds: [],
     ClientIds: [],
   };
+  startDate : string = ""
+  endDate : string = ""
 
   isModalOpen = false;
   isUpdateModalOpen = false;
@@ -370,8 +372,8 @@ export class ProjectsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.project.startDate = new Date(this.project.startDate);
-    this.project.endDate = new Date(this.project.endDate);
+    this.project.startDate = new Date(this.startDate);
+    this.project.endDate = new Date(this.endDate);
     this.projectService.addProject(this.project).subscribe(
       () => {
         this.loadProjects();
@@ -401,6 +403,8 @@ export class ProjectsComponent implements OnInit {
     } else {
       this.project.TeamIds.push(team.id);
     }
+    console.log(this.project.TeamIds);
+    
   }
 
   isSelectedTeam(team: Team): boolean {
@@ -409,6 +413,8 @@ export class ProjectsComponent implements OnInit {
 
   unselectTeam(team: Team): void {
     this.project.TeamIds = this.project.TeamIds.filter((id) => id !== team.id);
+    
+    console.log(this.project.TeamIds);
   }
 
   getSelectedTeams(): Team[] {
@@ -431,20 +437,48 @@ export class ProjectsComponent implements OnInit {
 
   unselectClient(client: Client): void {
     this.project.ClientIds = this.project.ClientIds.filter((id) => id !== client.id);
+    
+    console.log(this.project.ClientIds);
   }
 
   getSelectedClients(): Client[] {
     return this.clients.filter((client) => this.project.ClientIds.includes(client.id));
   }
 
+  dateFormat(date: Date) {
+    // Correctly format date to YYYY-MM-DD
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
   // Update Modal Logic
   openUpdateModal(project: Project): void {
+    
     this.selectedProject = {
       ...project,
       startDate: new Date(project.startDate),
-      endDate: new Date(project.endDate),
+      endDate: new Date(project.endDate)
     };
-
+    this.startDate = this.dateFormat(this.selectedProject.startDate)
+    this.endDate = this.dateFormat(this.selectedProject.endDate)
+    
+    if (this.selectedProject.teams != undefined) {
+      for (const team of this.selectedProject.teams) {
+        if (team) {
+          this.toggleTeamSelection(team);
+        }
+      }
+    }
+    
+    if (this.selectedProject.clients != undefined) {
+      for (const client of this.selectedProject.clients) {
+        if (client) {
+          this.toggleClientSelection(client);
+        }
+      }
+    }
+    
     const modal = document.getElementById('updateProjectModal');
     if (modal) {
       modal.classList.add('show');
@@ -452,19 +486,37 @@ export class ProjectsComponent implements OnInit {
       this.isUpdateModalOpen = true;
     }
   }
-
+  
   closeUpdateModal(): void {
     const modal = document.getElementById('updateProjectModal');
     if (modal) {
       modal.classList.remove('show');
       modal.style.display = 'none';
       this.isUpdateModalOpen = false;
+      
+      if (this.teams != undefined) {
+        for (const team of this.teams) {
+          if (team) {
+            this.unselectTeam(team);
+          }
+        }
+      }
+      
+      if (this.clients != undefined) {
+        for (const client of this.clients) {
+          if (client) {
+            this.unselectClient(client);
+          }
+        }
+      }
     }
   }
-
+  
   onUpdateSubmit(): void {
-    this.selectedProject.startDate = new Date(this.selectedProject.startDate);
-    this.selectedProject.endDate = new Date(this.selectedProject.endDate);
+    this.selectedProject.startDate = new Date(this.startDate);
+    this.selectedProject.endDate = new Date(this.endDate);
+    this.selectedProject.clients = this.getSelectedClients();
+    this.selectedProject.teams = this.getSelectedTeams();
     this.projectService.updateProject(this.selectedProject.id, this.selectedProject).subscribe(
       () => {
         this.loadProjects();

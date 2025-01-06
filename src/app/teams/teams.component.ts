@@ -116,7 +116,7 @@ export class TeamsComponent implements OnInit {
         else {
             this.team.teamMembers = [employee];
         }
-
+        
     }
 
 
@@ -157,6 +157,8 @@ export class TeamsComponent implements OnInit {
             } else {
                 this.selectedTeam.teamMembers.push(employee);
             }
+            
+        console.log(this.selectedTeam.teamMembers);
         }
         else{
             this.selectedTeam.teamMembers = [employee]
